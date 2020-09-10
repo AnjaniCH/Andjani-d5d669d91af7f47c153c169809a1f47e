@@ -1,0 +1,68 @@
+<html>
+<head>
+  <title>PT Magna Karsa Mulya</title>
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/small-business.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row ">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-7">
+              </div>
+              <div class="col-sm-5">
+                <div id="time" class="text-right pull-right" >Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <span onclick="cekUser()" id="btnSubmit" class="btn btn-large btn-primary mt-10">
+              Hello
+            </span>
+            <span id="textSuccess"></span>
+            <span id="pesan_error"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    </div>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/time.js"></script>
+  <script src="js/get_browser.js"></script>
+  <script>
+    function cekUser(){
+      const userName = localStorage.getItem('usernameLocalStorage');
+      //alert(userName);
+      if(userName != null){
+          $.post( "../back-end/cek_user.php", {
+              username      : userName,
+              browser_name  : browserName
+          })
+          .done(function( data ) {
+            if( data == 'failed'){              
+              localStorage.removeItem('usernameLocalStorage');
+              location.href="login.html";
+            }
+            else{
+              $('#textSuccess').html(data+"<br><br><a href='#' onclick='logout()'>Logout</a>");
+              $('#btnSubmit').hide();
+            }
+          });
+      }
+      else{
+          location.href="login.html";
+      }
+    }
+    function logout(){
+      localStorage.removeItem('usernameLocalStorage');
+      location.href="index.html";
+    } 
+  </script>
+</body>
+</html>

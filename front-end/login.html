@@ -1,0 +1,82 @@
+<html>
+<head>
+  <title>PT Magna Karsa Mulya</title>
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/small-business.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row ">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-7">
+              </div>
+              <div class="col-sm-5">
+                <div id="time" class="text-right pull-right" >Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-sm-8 offset-sm-2">
+              <h5 class="card-title text-center">Halaman Login</h5>
+              <hr>
+              <form class="form-signin" id="form_login">
+                <div class="form-label-group">
+                  <input type="text" name="inputUsername" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                  <label for="inputUsername"></label>
+                </div>
+
+                <div class="form-label-group">
+                  <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
+                  <label for="inputPassword"></label>
+                </div>
+                <div id="pesan_error" class="text-danger"></div>
+                <span class="btn btn-primary" onclick="doLogin()">Login</span>
+                <br><br>
+                <a href="register.html">Belum punya Akun ..? silahkan Registrasi disini</a>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    </div>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/time.js"></script>
+  <script src="js/get_browser.js"></script>
+  <script>
+  function doLogin(){
+    if($('#inputUsername').val() ==''){
+      alert('Silahkan Input Username terlebih dahulu');
+    }
+    else if($('#inputPassword').val() ==''){
+      alert('Silahkan Input Password terlebih dahulu');
+    }
+    else{
+      $.post( "../back-end/cek_login.php", 
+           $( "#form_login" ).serialize()
+        )
+        .done(function( data ) {
+            if( data == 'success' ){
+
+              localStorage.setItem('usernameLocalStorage', $('#inputUsername').val());  
+
+              //alert(localStorage.username);
+              location.href="index.html?from=login";
+            }
+            else{
+              $('#pesan_error').html("Proses Login Gagal, pastikan Username dan Password anda Benar !<br><br>");
+            }
+        });
+    }
+  }
+  </script>
+</body>
+</html>
